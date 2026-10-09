@@ -7,7 +7,6 @@
   <meta name="description" content="RUNMATE — اكتشف جريات قريبة، احجز مكانك، والتقِ بأصدقاء الجري.">
   <title>RUNMATE — اجري مع ناسك</title>
   
-  <!-- Preconnect and Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
@@ -15,298 +14,140 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<div class="app-shell">
-  <!-- Sidebar Navigation -->
+
+<!-- شاشة تسجيل الدخول وإنشاء الحساب -->
+<div class="auth-container" id="auth-screen">
+  <div class="auth-box">
+    <div class="auth-brand">
+      <span class="brand-mark">R</span> RUNMATE<span class="brand-dot">.</span>
+    </div>
+    <div class="auth-tabs">
+      <button class="active" id="tab-login">تسجيل الدخول</button>
+      <button id="tab-register">حساب جديد</button>
+    </div>
+
+    <!-- نموذج الدخول -->
+    <form class="auth-form" id="form-login">
+      <label>البريد الإلكتروني<input type="email" id="login-email" required placeholder="name@example.com"></label>
+      <label>كلمة السر<input type="password" id="login-pass" required placeholder="••••••••"></label>
+      <button class="primary-btn" type="submit" style="justify-content: center; margin-top: 0.5rem;">دخول</button>
+    </form>
+
+    <!-- نموذج إنشاء حساب -->
+    <form class="auth-form" id="form-register" style="display: none;">
+      <label>الاسم الكامل<input type="text" id="reg-name" required placeholder="مثال: محمد يوسف"></label>
+      <label>البريد الإلكتروني<input type="email" id="reg-email" required placeholder="name@example.com"></label>
+      <label>كلمة السر<input type="password" id="reg-pass" required placeholder="••••••••"></label>
+      <button class="primary-btn" type="submit" style="justify-content: center; margin-top: 0.5rem;">إنشاء الحساب</button>
+    </form>
+  </div>
+</div>
+
+<!-- التطبيق الرئيسي (مخفي حتى تسجيل الدخول) -->
+<div class="app-shell" id="app-shell">
   <aside class="sidebar">
-    <a class="brand" href="#home" aria-label="RUNMATE home">
+    <a class="brand" href="#home">
       <span class="brand-mark">R</span>
       <span>RUNMATE<span class="brand-dot">.</span></span>
     </a>
-    <div class="side-label" data-i="menu">القائمة</div>
-    <nav class="side-nav" aria-label="Main navigation">
-      <button class="nav-item active" data-page="home"><span>⌂</span><b data-i="home">الرئيسية</b></button>
-      <button class="nav-item" data-page="explore"><span>⌕</span><b data-i="explore">اكتشف</b></button>
-      <button class="nav-item" data-page="tickets"><span>▣</span><b data-i="tickets">تذاكري</b><i class="nav-count" id="ticket-count" style="display: block;">1</i></button>
-      <button class="nav-item" data-page="chats"><span>▤</span><b data-i="chats">المحادثات</b></button>
-      <button class="nav-item" data-page="profile"><span>◉</span><b data-i="profile">حسابي</b></button>
+    <div class="side-label">القائمة</div>
+    <nav class="side-nav">
+      <button class="nav-item active" data-page="home"><span>⌂</span><b>الرئيسية</b></button>
+      <button class="nav-item" data-page="explore"><span>⌕</span><b>اكتشف</b></button>
+      <button class="nav-item" data-page="tickets"><span>▣</span><b>تذاكري</b><i class="nav-count" id="ticket-count">0</i></button>
+      <button class="nav-item" data-page="profile"><span>◉</span><b>حسابي</b></button>
     </nav>
     <div class="sidebar-bottom">
-      <div class="weather-card">
-        <div class="sun">☀</div>
-        <div>
-          <small data-i="weather">الجو في القاهرة</small>
-          <strong>24° <small>— مثالي للجري</small></strong>
-        </div>
-      </div>
-      <button class="language-btn" id="language-btn">◎ <span>English</span></button>
       <div class="side-user">
-        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" alt="سارة أحمد">
+        <div class="user-avatar-placeholder" id="user-avatar-initials">U</div>
         <div>
-          <b data-i="runner">سارة أحمد</b>
-          <small>عضوة منذ 2024</small>
+          <b id="user-name-display">المستخدم</b>
+          <small id="user-email-display">user@app.com</small>
         </div>
-        <button class="dots">···</button>
+        <button class="logout-btn" id="logout-btn">خروج</button>
       </div>
     </div>
   </aside>
 
-  <!-- Main Content Area -->
   <main class="main">
     <header class="topbar">
-      <button class="mobile-brand" data-page="home">
-        <span class="brand-mark">R</span> RUNMATE<span class="brand-dot">.</span>
-      </button>
+      <button class="mobile-brand" data-page="home"><span class="brand-mark">R</span> RUNMATE<span class="brand-dot">.</span></button>
       <div class="crumb">
-        <span data-i="discover">اكتشفي جريات جديدة</span>
-        <span class="crumb-slash">/</span>
-        <span id="crumb-active" data-i="home">الرئيسية</span>
-      </div>
-      <div class="top-actions">
-        <button class="icon-btn notification-btn" aria-label="Notifications">♧<i></i></button>
-        <button class="top-avatar" data-page="profile">
-          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" alt="Profile">
-        </button>
+        <span>منصة الجري</span><span class="crumb-slash">/</span><span id="crumb-active">الرئيسية</span>
       </div>
     </header>
 
-    <!-- Page: Home -->
+    <!-- صفحة الرئيسية -->
     <section class="page active" id="page-home">
       <div class="welcome-row">
         <div>
-          <p class="eyebrow"><span class="live-dot"></span><span data-i="goodmorning">صباح النشاط، سارة</span></p>
-          <h1 data-i="welcome">جاهزة لجريتك الجاية؟</h1>
-          <p class="subline" data-i="subtitle">صحاب جدد، طرق حلوة، وخطوة أقرب لهدفك.</p>
+          <p class="eyebrow"><span class="live-dot"></span>أهلاً بك 👋</p>
+          <h1 id="welcome-title">جاهز لجريتك الجاية؟</h1>
+          <p class="subline">اكتشف الجريات القريبة أو نظّم جريتك الخاصة.</p>
         </div>
-        <button class="primary-btn create-run" data-page="organizer">
-          <span>＋</span><span data-i="create">نظّمي جَرية</span>
-        </button>
+        <button class="primary-btn" data-page="organizer"><span>＋</span>نظّمي جَرية</button>
       </div>
 
       <div class="hero">
-        <img src="https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=1200&auto=format&fit=crop&q=80" alt="Runners jogging together">
+        <img src="https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=1200&auto=format&fit=crop&q=80" alt="Runners">
         <div class="hero-shade"></div>
-        <div class="hero-tag"><span class="live-dot"></span><span data-i="featured">اختيار الأسبوع</span></div>
         <div class="hero-content">
-          <div class="hero-kicker" data-i="featured-run">جَرية مميزة · القاهرة</div>
-          <h2 data-i="hero-title">على النيل<br>الصبح أحلى.</h2>
-          <p data-i="hero-desc">ابدئي يومك بخطوات هادية على الكورنيش.</p>
+          <div class="hero-kicker">جَرية مميزة</div>
+          <h2 class="hero-title">جَرية شروق على النيل</h2>
           <div class="hero-meta">
-            <span>◷ <b>الجمعة، ١٧ أكتوبر</b> · ٦:٣٠ ص</span>
-            <span>↗ <b>٥ كم</b></span>
-            <span>◎ <b>مبتدئة</b></span>
+            <span>◷ الجمعة · ٦:٣٠ ص</span>
+            <span>↗ ٥ كم</span>
           </div>
-          <button class="hero-button" data-event="e1">
-            <span data-i="discover-run">اكتشفي الجَرية</span><span>↙</span>
-          </button>
-        </div>
-        <div class="hero-pagination"><i class="selected"></i><i></i><i></i></div>
-      </div>
-
-      <div class="stats-row">
-        <div class="stat">
-          <span class="stat-icon lime-icon">↗</span>
-          <div>
-            <small data-i="nearby-runs">جريات قريبة</small>
-            <strong><em>12</em> <small data-i="this-week">هذا الأسبوع</small></strong>
-          </div>
-        </div>
-        <div class="stat">
-          <span class="stat-icon">◎</span>
-          <div>
-            <small data-i="community">مجتمع RUNMATE</small>
-            <strong><em>2.4k</em> <small data-i="active-runners">عدّاء نشط</small></strong>
-          </div>
-        </div>
-        <div class="stat">
-          <span class="stat-icon">⌖</span>
-          <div>
-            <small data-i="your-area">منطقتك</small>
-            <strong>المعادي، القاهرة</strong>
-          </div>
+          <button class="primary-btn" data-event="e1">التفاصيل والحجز</button>
         </div>
       </div>
 
       <div class="section-heading">
-        <div>
-          <p class="eyebrow" data-i="curated">مختارة ليكي</p>
-          <h2 data-i="upcoming">جريات جاية <span class="heading-count">04</span></h2>
-        </div>
-        <button class="text-link" data-page="explore">
-          <span data-i="all-runs">كل الجريات</span> <span>←</span>
-        </button>
+        <h2>الجريات القادمة</h2>
+        <button class="text-link" data-page="explore">كل الجريات ←</button>
       </div>
-
       <div class="run-grid" id="home-runs"></div>
-
-      <div class="section-heading spots-heading">
-        <div>
-          <p class="eyebrow" data-i="get-out">غيري الجو</p>
-          <h2 data-i="popular-spots">أماكن بنحب نجري فيها</h2>
-        </div>
-        <button class="text-link" data-page="explore"><span data-i="explore-map">استكشفي الخريطة</span> ←</button>
-      </div>
-
-      <div class="spot-grid">
-        <button class="spot-card" data-spot="النيل">
-          <img src="https://images.unsplash.com/photo-1519046904884-53103b34b206?w=600&auto=format&fit=crop&q=80" alt="Nile corniche">
-          <span><b>كورنيش النيل</b><small>٨ جريات · ٢.١ كم منك</small></span>
-          <i>↙</i>
-        </button>
-        <button class="spot-card" data-spot="المعادي">
-          <img src="https://images.unsplash.com/photo-1511497584788-876760111969?w=600&auto=format&fit=crop&q=80" alt="Green park path">
-          <span><b>غابة المعادي</b><small>٥ جريات · ١.٤ كم منك</small></span>
-          <i>↙</i>
-        </button>
-        <button class="spot-card" data-spot="الزمالك">
-          <img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=600&auto=format&fit=crop&q=80" alt="Outdoor running spot">
-          <span><b>ممشى الزمالك</b><small>٦ جريات · ٤.٦ كم منك</small></span>
-          <i>↙</i>
-        </button>
-      </div>
-
-      <footer class="footer">
-        <span>© RUNMATE 2025</span>
-        <span data-i="footer">اجري على مزاجك. والباقي علينا.</span>
-        <span>صنع بحب <b>●</b></span>
-      </footer>
     </section>
 
-    <!-- Page: Explore -->
+    <!-- صفحة الاستكشاف -->
     <section class="page" id="page-explore">
-      <div class="page-heading">
-        <div>
-          <p class="eyebrow" data-i="find-your">الطريق بيناديكي</p>
-          <h1 data-i="explore-title">اكتشفي جريتك.</h1>
-          <p class="subline" data-i="explore-sub">اختاري جَرية على مزاجك، والباقي علينا.</p>
-        </div>
+      <div class="section-heading">
+        <h1>استكشف الجريات</h1>
       </div>
-
       <div class="filter-bar">
         <label class="search-box">
           <span>⌕</span>
-          <input id="search" placeholder="دوري على جَرية، مكان، أو منظم..." aria-label="Search runs">
+          <input id="search" placeholder="دوري على جَرية، مكان..." aria-label="Search">
         </label>
-        <select id="filter-level" aria-label="Difficulty">
-          <option value="all">كل المستويات</option>
-          <option value="مبتدئة">مبتدئة</option>
-          <option value="متوسطة">متوسطة</option>
-          <option value="متقدمة">متقدمة</option>
-        </select>
-        <select id="filter-distance" aria-label="Distance">
-          <option value="all">أي مسافة</option>
-          <option value="5">حتى 5 كم</option>
-          <option value="10">5–10 كم</option>
-          <option value="11">أكثر من 10 كم</option>
-        </select>
-        <select id="filter-price" aria-label="Price">
-          <option value="all">كل الأسعار</option>
-          <option value="free">مجانية</option>
-          <option value="paid">مدفوعة</option>
-        </select>
-        <button class="filter-reset" id="reset-filters">↺</button>
       </div>
-
-      <div class="filter-summary">
-        <span id="result-count">4 جريات قريبة</span>
-        <button id="sort-btn">الأقرب موعداً ↓</button>
-      </div>
-
       <div class="run-grid" id="explore-runs"></div>
     </section>
 
-    <!-- Page: Tickets -->
+    <!-- صفحة التذاكر -->
     <section class="page" id="page-tickets">
-      <div class="page-heading">
-        <div>
-          <p class="eyebrow" data-i="all-set">مكانك محفوظ</p>
-          <h1 data-i="tickets-title">تذاكرك.</h1>
-          <p class="subline" data-i="tickets-sub">كل جرياتك الجاية في مكان واحد.</p>
-        </div>
-      </div>
-      <div class="ticket-tabs">
-        <button class="active" data-tab="upcoming">الجايّة <span id="upcoming-num">1</span></button>
-        <button data-tab="past">السابقة</button>
+      <div class="section-heading">
+        <h1>تذاكري والمشاركات</h1>
       </div>
       <div id="ticket-list"></div>
     </section>
 
-    <!-- Page: Chats -->
-    <section class="page" id="page-chats">
-      <div class="page-heading">
-        <div>
-          <p class="eyebrow" data-i="your-people">ناس جريتك</p>
-          <h1 data-i="chats-title">المحادثات.</h1>
-          <p class="subline" data-i="chats-sub">تواصلي مع صحابك في كل جَرية.</p>
-        </div>
-      </div>
-      <div class="chat-layout">
-        <div class="chat-list" id="chat-list"></div>
-        <div class="chat-detail" id="chat-detail">
-          <div class="chat-head" id="chat-head"></div>
-          <div class="chat-messages" id="chat-messages"></div>
-          <form class="chat-compose" id="chat-compose">
-            <input name="message" placeholder="اكتبي رسالة..." autocomplete="off" required>
-            <button type="submit">إرسال</button>
-          </form>
-        </div>
-      </div>
-    </section>
-
-    <!-- Page: Profile -->
+    <!-- صفحة الملف الشخصي -->
     <section class="page" id="page-profile">
-      <div class="page-heading">
-        <div>
-          <p class="eyebrow">RUNMATE MEMBER</p>
-          <h1>حسابي.</h1>
-        </div>
-        <button class="outline-btn" id="edit-profile">تعديل الملف</button>
-      </div>
       <div class="profile-card">
-        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop&q=80" alt="Sarah Ahmed">
+        <div class="profile-avatar-large" id="profile-avatar-large">U</div>
         <div>
-          <span class="member-tag">✦ RUNMATE MEMBER</span>
-          <h2>سارة أحمد</h2>
-          <p>عدّاءة صباحية · المعادي، القاهرة</p>
-          <p class="bio">بحب أبدأ يومي بدري وأكتشف طرق جديدة. مستوايا مبتدئ وهدفي أول ١٠ كم 🏃‍♀️</p>
-        </div>
-        <div class="profile-stats">
-          <span><b id="run-total">1</b><small>جَرية</small></span>
-          <span><b>٠٨:١٥</b><small>متوسط الوتيرة</small></span>
-          <span><b>٤٢ كم</b><small>المسافة الكلية</small></span>
+          <h2 id="profile-name">اسم المستخدم</h2>
+          <p id="profile-email" style="color: var(--text-muted);">email@example.com</p>
         </div>
       </div>
-      <div class="section-heading">
-        <div>
-          <p class="eyebrow">KEEP MOVING</p>
-          <h2>تفضيلات الجري</h2>
-        </div>
-      </div>
-      <div class="preference-grid">
-        <div class="preference"><span>مستوى الخبرة</span><b>🌱 مبتدئة</b></div>
-        <div class="preference"><span>المسافة المفضّلة</span><b>↗ ٥ كم</b></div>
-        <div class="preference"><span>وقت الجري</span><b>☼ الصباح بدري</b></div>
-      </div>
-      <button class="outline-btn auth-trigger" style="margin-top: 2rem;">تسجيل الدخول / إنشاء حساب</button>
     </section>
 
-    <!-- Page: Organizer -->
+    <!-- صفحة تنظيم جَرية -->
     <section class="page" id="page-organizer">
-      <div class="page-heading">
-        <div>
-          <p class="eyebrow">RUNMATE ORGANIZER</p>
-          <h1>نظّمي جَرية.</h1>
-          <p class="subline">اعملي مساحة جديدة للناس اللي بتحب تجري.</p>
-        </div>
-        <span class="demo-badge">معاينة المنظم</span>
+      <div class="section-heading">
+        <h1>نظّمي جَرية جديدة</h1>
       </div>
       <div class="organizer-panel">
-        <div class="organizer-note">
-          <span>✦</span>
-          <div>
-            <b>خلي جريتك الجاية مميزة</b>
-            <p>أضيفي التفاصيل ومكان التجمع، وحددي عدد المشاركين.</p>
-          </div>
-        </div>
         <form id="organizer-form" class="organizer-form">
           <label>اسم الجَرية<input id="org-title" required placeholder="مثال: جَرية شروق المعادي"></label>
           <div class="form-row">
@@ -318,46 +159,30 @@
             <label>المسافة (كم)<input id="org-distance" type="number" min="1" value="5" required></label>
             <label>المقاعد المتاحة<input id="org-seats" type="number" min="1" value="15" required></label>
           </div>
-          <label>المستوى
-            <select id="org-level">
-              <option>مبتدئة</option>
-              <option>متوسطة</option>
-              <option>متقدمة</option>
-            </select>
-          </label>
-          <button class="primary-btn" type="submit">＋ إنشاء الجَرية</button>
-          <small>حفظ الجريات والنشر الحقيقي يحتاج إعداد Supabase. الإضافة هنا للمعاينة فقط.</small>
+          <button class="primary-btn" type="submit">＋ إنشاء الجَرية الآن</button>
         </form>
       </div>
     </section>
   </main>
 
-  <!-- Mobile Bottom Navigation -->
-  <nav class="mobile-nav" aria-label="Mobile navigation">
+  <nav class="mobile-nav">
     <button class="active" data-page="home"><span>⌂</span><small>الرئيسية</small></button>
     <button data-page="explore"><span>⌕</span><small>اكتشف</small></button>
     <button data-page="tickets"><span>▣</span><small>تذاكري</small></button>
-    <button data-page="chats"><span>▤</span><small>الشات</small></button>
     <button data-page="profile"><span>◉</span><small>حسابي</small></button>
   </nav>
 </div>
 
-<!-- Event Modal -->
-<div class="modal-backdrop" id="modal" aria-hidden="true">
-  <section class="event-modal" role="dialog" aria-modal="true">
-    <button class="modal-close" id="modal-close" aria-label="Close">×</button>
+<!-- النافذة المنبثقة للتفاصيل -->
+<div class="modal-backdrop" id="modal">
+  <section class="event-modal">
+    <button class="modal-close" id="modal-close">×</button>
     <div id="modal-content"></div>
   </section>
 </div>
 
-<!-- Toast Notification -->
-<div class="toast" id="toast" role="status"></div>
+<div class="toast" id="toast"></div>
 
 <script src="app.js"></script>
-<script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(() => {}));
-  }
-</script>
 </body>
 </html>
